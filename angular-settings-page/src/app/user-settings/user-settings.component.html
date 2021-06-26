@@ -1,1 +1,88 @@
-<p>user-settings works!</p>
+<div class="container">
+    <h2>User Settings</h2>
+    <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+        <div class="mb-3">
+            <label for="name">Name</label>
+            <input id="name" name="name" class="form-control" placeholder="Name" [(ngModel)]="userSettings.Name"
+                required #nameField="ngModel" [class.field-invalid]="form.submitted && nameField.invalid" />
+            <div [hidden]="!form.submitted || nameField.valid" class="alert alert-danger">
+                Enter a valid name
+            </div>
+        </div>
+
+        <div class="form-check mb-3">
+            <input class="form-check-input" name="emailOffers" type="checkbox" value="" id="emailOffers"
+                [(ngModel)]="userSettings.EmailPromotion" />
+            <label class="form-check-label" for="emailOffers"> Email special offers </label>
+        </div>
+
+        <h5>User Interface Style</h5>
+        <div class="form-group">
+            <div class="btn-group">
+                <label class="btn btn-primary" [(ngModel)]="userSettings.InterfaceMode" name="uiMode" btnRadio="light" tabindex="0"
+                    role="button">Light</label>
+                <label class="btn btn-primary" [(ngModel)]="userSettings.InterfaceMode" name="uiMode" btnRadio="medium" tabindex="0"
+                    role="button">Medium</label>
+                <label class="btn btn-primary" [(ngModel)]="userSettings.InterfaceMode" name="uiMode" btnRadio="dark" tabindex="0"
+                    role="button">Dark</label>
+            </div>
+        </div>
+        <!-- <div class="form-check">
+            <input class="form-check-input" type="radio" name="uiMode" id="lightModeId" value="light"
+                [(ngModel)]="userSettings.InterfaceMode">
+            <label class="form-check-label" for="lightModeId">
+                Light Mode
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="uiMode" id="mediumModeId" value="medium"
+                [(ngModel)]="userSettings.InterfaceMode">
+            <label class="form-check-label" for="mediumModeId">
+                Medium Mode
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="uiMode" id="darkModeId" value="dark"
+                [(ngModel)]="userSettings.InterfaceMode">
+            <label class="form-check-label" for="darkModeId">
+                Dark Mode
+            </label>
+        </div> -->
+
+
+
+        <h5>Subscription details</h5>
+        <div class="mb-3">
+            <select class="form-select" name="subscriptionType" aria-label="Subscription Type"
+                [(ngModel)]="userSettings.SubscriptionType">
+                <option *ngFor="let type of subscriptionTypes | async">
+                    {{type}}
+                </option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="startDate">Subscription start date</label>
+            <input type="text"
+                    placeholder="Start Date"
+                    class="form-control"
+                    [(ngModel)]="startDate"
+                    name="startDate"
+                    id="startDate"
+                    bsDatepicker>
+        </div>
+
+        <div class="mb-3">
+            <label for="notes">Notes</label>
+            <textarea id="notes" name="notes" class="form-control" rows="3" [(ngModel)]="userSettings.Notes"
+                placeholder="Add Notes"></textarea>
+        </div>
+
+        <div [hidden]="!postError" class="alert alert-danger">{{postErrorMessage}}</div>
+        <button class="btn btn-primary">Send</button>
+
+    </form>
+</div>
+
+{{userSettings|json}}
+{{originalUserSettings|json}}
